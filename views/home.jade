@@ -1,0 +1,63 @@
+doctype html
+html(lang='en')
+    head
+        title Grade Tracker
+        script(src='https://code.jquery.com/jquery-2.2.3.min.js', integrity='sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=', crossorigin='anonymous')
+        script(src="/main.js")
+        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")
+        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+        link(rel="stylesheet" href="/style.css")
+    body
+        h1 Grades
+        br
+        table
+            thead
+                tr
+                    th Name
+                    th Score
+                    th Total
+                    th Letter Grade
+                    th Running Total
+                    th To Edit
+            tbody#gradeTable
+             if grades
+                 each grade in grades
+                     tr(data-name="#{grade.name}")
+                        td #{grade.name}
+                        td #{grade.score}
+                        td #{grade.total}
+                        td #{grade.grade}
+                        td #{grade.runningTotal}
+                        td.toEdit
+                         button.btn Click To Edit
+        br
+        button#addGrade.btn Add Grade
+        button#deleteGradeButton.btn Delete Grade
+        // Add Grade Modal
+        #gradeModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+            .modal-dialog(role='document')
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Add Grade
+                    form#addGradeForm
+                        .modal-body
+                            div.form-group
+                                input(type="text" placeholder="Name of Grade/Assignement" required)#gradeName
+                                input(type="number" placeholder="Score")#newScore
+                                input(type="number" placeholder="total")#gradeTotal
+                                input(type="text" placeholder="Letter Grade")#letterGrade
+                        .modal-footer
+                            button.btn.btn-default(type='button', data-dismiss='modal') Close
+                            button.btn.btn-primary(type='button')#submitGrade Save changes
+        //delete grade modal
+        #deleteGradeModal.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='deleteGrade')
+            .modal-dialog.modal-sm
+                .modal-content
+                    h2 Which Assignment/Test would you like to delete?
+                    br
+                    input(type="text" placeholder="Grade/Assignment Name")#gradeToDeleteInput
+                .modal-footer
+                    button.btn.btn-default(type='button', data-dismiss='modal') Close
+                    button.btn.btn-primary(type='button')#confirmDeleteGrade Delete Grade
